@@ -1,0 +1,2 @@
+# licenta
+MERN stack application
