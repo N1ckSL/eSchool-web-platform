@@ -3,10 +3,10 @@ MERN stack application
 
 Implementari:
 
-·Login/Register MongoDB ( with role )
+· Login/Register MongoDB ( with role )
 
-·Forgot password - Reset password
+· Forgot password - Reset password
 
-·Header nav
+· Header nav
 
-·Admin Role
+· Admin Role
