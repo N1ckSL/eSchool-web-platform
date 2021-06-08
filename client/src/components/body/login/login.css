@@ -1,8 +1,10 @@
 .login__page{
     max-width: 500px;
-    margin: auto;
+    margin: 0 auto;
     color: #bbb;
     padding: 0 15px;
+    position: relative;
+    top: -50px;
 }
 
 .login__page h2{
@@ -17,7 +19,7 @@
     width: 100%;
     height: 45px;
     margin: 10px 0;
-    border: 2px solid rgb(255, 255, 255);
+    /* border: 2px solid rgb(255, 255, 255); */
     border-radius:5px 15px 5px 15px ;
     outline: none;
     padding: 0 10px;
@@ -29,6 +31,7 @@
     justify-content: space-between;
     flex-wrap: wrap-reverse;
     align-items: flex-start;
+    margin-top: 20px;
 }
 
 .login__page .row a {
@@ -68,11 +71,10 @@
 }
 
 .hr{
-    margin-bottom: 5px;
+    margin: 10px 0;
 }
 
 /* ----------- Forgot Password ------------ */
-
 
 .forgot{
     color: rgb(228, 228, 228);
@@ -127,4 +129,10 @@
     display: flex;
     width: 50%;
     flex-direction: column;
+}
+
+/* ----------- Register ------------ */
+
+.form__item {
+    margin-bottom: 20px;
 }

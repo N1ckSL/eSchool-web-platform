@@ -114,7 +114,18 @@
 .table__date .fa-check{
     color: green;
 }
+.alignRight{
+    display: flex;
+    flex-direction: row-reverse;
+}
 
+.check__box{
+    width: 50px;
+    height: 20px;
+    transform:  translateY(3px);
+    display: flex;
+    margin: auto;
+}
 .table__date .fa-times{
     color: red;
 }

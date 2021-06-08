@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const userSchema = new mongoose.Schema(
   {
@@ -23,7 +24,7 @@ const userSchema = new mongoose.Schema(
       default: 0, // 0 --> user,  2 --> profesor,  3 --> admin
       required: [true, "Va rugam sa introduceti rolul!"],
       trim: true,
-    },
+    }
   },
   { timestamps: true }
 );

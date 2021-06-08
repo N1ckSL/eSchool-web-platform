@@ -7,6 +7,8 @@ router.post('/register', userControl.register)
 
 router.post('/activation', userControl.activateEmail)
 
+router.post('/create', userControl.createAccount)
+
 router.post('/login', userControl.login)
 
 router.post('/refresh_token', userControl.getAccessToken)
@@ -26,6 +28,8 @@ router.patch('/update',auth, userControl.updateUser)
 router.patch('/update_role/:id',auth, authAdmin, userControl.updateUserRole)
 
 router.delete('/delete/:id',auth, authAdmin, userControl.deleteUser)
+
+router.patch('/update_subject/:id', userControl.updateSubject)
 
 // GOOGLE
 

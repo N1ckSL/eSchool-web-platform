@@ -9,6 +9,9 @@ import { dispatchLogin } from "../../../redux/actions/loginAction";
 import { useDispatch } from "react-redux";
 import { GoogleLogin } from "react-google-login";
 
+import TextField from '@material-ui/core/TextField';
+
+
 const initialState = {
   email: "",
   password: "",
@@ -66,8 +69,13 @@ function Login() {
       {success && showSuccessMsg(success)}
 
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email Adress</label>
+
+
+        <TextField required id="email" label="Email" size="medium" name="email" placeholder="Introduceti Email" value={email} onChange={handleChangeInput} style={{width:450}}/>
+
+        <TextField required id="password" label="Parola" size="medium" name="password" placeholder="Introduceti Parola" value={password} type="password" onChange={handleChangeInput} style={{width:450}}/>
+
+          {/* <label htmlFor="email">Email Adress</label>
           <input
             type="email"
             placeholder="Enter your email"
@@ -75,10 +83,9 @@ function Login() {
             value={email}
             name="email"
             onChange={handleChangeInput}
-          />
-        </div>
+          /> */}
 
-        <div>
+        {/* <div>
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -88,15 +95,15 @@ function Login() {
             name="password"
             onChange={handleChangeInput}
           />
-        </div>
+        </div> */}
 
         <div className="row">
           <button type="submit">Login</button>
-          <Link to="/forgot_password">Forgot your password?</Link>
+          <Link to="/forgot_password">Ați uitat parola?</Link>
         </div>
       </form>
 
-      <div className="hr">Sau logativa cu</div>
+      <div className="hr">Sau logațivă cu</div>
       <div className="social">
         <GoogleLogin
           clientId="383604736057-iustm6rlmeopjo2cldcuocjsolpi6r0p.apps.googleusercontent.com"
@@ -106,7 +113,7 @@ function Login() {
         />
       </div>
       <p>
-        Nu sunteti inregistrat? <Link to="/register">Register</Link> 
+        Nu sunteți înregistrat? <Link to="/register">Înregistrare</Link> 
       </p>
     </div>
   );

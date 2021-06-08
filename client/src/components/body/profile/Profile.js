@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -11,6 +11,13 @@ import {
   fetchAllUsers,
   dispatchGetAllUsers,
 } from "../../../redux/actions/usersAction";
+
+import Subjects from '../subjects'
+import Teachers from '../teachers'
+import {EvaluateStudents} from '../teachers/evaluate_students'
+import Years from '../years'
+import Students from '../students'
+import {ReviewGrades} from '../students/reviewGrades'
 
 const initialState = {
   name: "",
@@ -34,12 +41,12 @@ function Profile() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    if (isAdmin) {
+    if (isAdmin || isSecretar) {
       fetchAllUsers(token).then((res) => {
         dispatch(dispatchGetAllUsers(res));
       });
     }
-  }, [token, isAdmin, dispatch, callback]);
+  }, [token, isAdmin, dispatch, callback, isSecretar]);
 
   const updateInfor = () => {
     try {
@@ -111,6 +118,93 @@ function Profile() {
     }
   };
 
+  const [subjectsState, setSubjectsState] = useState([])
+  const [dataUserSubjectState, setDataUserSubjects] = useState([])
+  const [year, setYear ] = useState(0)
+  useEffect(()=>{
+    setYear((new Date().getFullYear()))
+    const getDataDB = async () =>{
+      const subjects = await axios.get(
+        "/subject/all",
+        {
+          headers: { Authorization: token },
+        }
+      );
+      setSubjectsState(subjects.data)
+      const teacherSubjet = await axios.get(
+        `/usersubject/all/${year}`
+      );
+    }
+    getDataDB();
+  },[])
+  useEffect(()=>{
+    const getDataDB = async () =>{
+      const teacherSubject = await axios.get(
+        `/usersubject/all/${year}`
+      );
+      setDataUserSubjects(teacherSubject.data)
+    }
+    getDataDB();
+  },[year])
+
+const updateYear = (value) => {
+  setYear(value)
+}
+
+  const saveSubject = async (data) => {
+    // data.id=(Math.max.apply(null, subjectsState.map(item => item.id)) || 0) + 1;
+    
+        const subjects = await axios.get(
+          "/subject/all",
+          {
+            headers: { Authorization: token },
+          }
+        );
+        setSubjectsState(subjects.data)
+  }
+
+  const [newUser, setNewUser]=useState({
+    newName:'',
+    newEmail:'',
+    newPassword:'',
+    newRole:0
+  });
+
+  const [errorNew, setErrorNew] = useState('')
+  const handleChangeNew = (ev) =>{
+    const {id, value}=ev.target;
+    setErrorNew('')
+    setNewUser({...newUser, [id]:value})
+  }
+  const createNewUser = async () =>{
+    try{
+
+    
+    const response = await axios.post("/user/create",
+    {
+      name:newUser.newName,
+      email:newUser.newEmail,
+      password:newUser.newPassword,
+      role:newUser.newRole,
+    }
+    )
+    if(response.status === 200){
+      fetchAllUsers(token).then((res) => {
+        dispatch(dispatchGetAllUsers(res));
+      });
+      setNewUser({
+        newName:'',
+        newEmail:'',
+        newPassword:'',
+        newRole:0
+      })
+    }else{
+      setErrorNew(response.msg)
+    }
+  }catch(error){
+      setErrorNew(error.response.data.msg)
+  }
+  }
   return (
     <>
       <div>
@@ -172,12 +266,76 @@ function Profile() {
         </div>
 
         <div className="col-right">
-          <h2>{isAdmin ? "Users" : "Note"}</h2>
+        <Years updateYear={updateYear} />
+        { isSecretar && 
+            <div className="table__wrapper">
+              <Subjects subjects={subjectsState} saveSubject={saveSubject} />
+              <Teachers year={year} teacherSubjects={dataUserSubjectState} teachers={users.filter(teacher=> teacher.role === 2)} subjects={subjectsState} />
+              <Students year={year} studentSubjects={dataUserSubjectState} subjects={subjectsState} students={users.filter(teacher=> teacher.role === 0)} />
+            </div>
+          }
+          {
+            isProfessor &&
+            <EvaluateStudents year={year} dataUserSubjects={dataUserSubjectState} />
+          }
+          {
+            (!isSecretar && !isProfessor) &&
+            <ReviewGrades dataUserSubjects={dataUserSubjectState} />
+          }
+          <h2>{isAdmin || isSecretar ? "Users" : "Note"}</h2>
+          {isSecretar &&
+          <div>
+            <div className="user__form">
+              <label htmlFor="newName">Name</label>
+              <input
+                type="text"
+                name="newName"
+                id="newName"
+                value={newUser.newName}
+                placeholder="Name User"
+                onChange={handleChangeNew}
+              />
+            <label htmlFor="newName">Email</label>
+              <input
+                type="text"
+                name="newEmail"
+                id="newEmail"
+                value={newUser.newEmail}
+                placeholder="Email User"
+                onChange={handleChangeNew}
+              />
+            <label htmlFor="newPassword">Password</label>
+              <input
+                type="text"
+                name="newPassword"
+                id="newPassword"
+                value={newUser.newPassword}
+                placeholder="Password User"
+                onChange={handleChangeNew}
+              />
+            <label htmlFor="newRole">Role</label>
+              <select
+                name="newRole"
+                id="newRole"
+                value={newUser.newRole}
+                onChange={handleChangeNew}
+              >
+                <option value="0">Elev</option>
+                <option value="2">Professor</option>
+                <option value="3">Secretar</option>
+                </select>
+                <button onClick={createNewUser} className={'btn-black'} style={{marginLeft:'10px', width:'50px'}}>SAVE</button>
+                {errorNew &&
+                  <h3 style={{color:'red'}}>{errorNew}</h3>
+                }
+            </div>
+          </div>
+          }
           <div className="table__wrapper">
             <table className="table__date">
               <thead>
                   {
-                      isAdmin 
+                      isAdmin || isSecretar
                       ? <tr>
                           <th>ID</th>
                           <th>Name</th>
@@ -223,5 +381,4 @@ function Profile() {
     </>
   );
 }
-
 export default Profile;

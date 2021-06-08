@@ -48,9 +48,7 @@ const userControl = {
         "Congratulations! You're almost set to start using eLearning Platform.",
         "Verify account"
       );
-
       res.json({ msg: "Register success! Please activate account" });
-      // console.log({activation_token});
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -271,6 +269,42 @@ const userControl = {
     } catch (err) {
         return res.status(500).json({msg: err.message})
     }
+},
+createAccount: async (req, res) => {
+  try {
+    const { name, email, password, role } = req.body;
+
+    const check = await Users.findOne({ email });
+    if (check) return res.status(400).json({ msg: "Email Existent" });
+
+    const passwordHash = await bcrypt.hash(password, 12);
+
+    const newUser = new Users({
+      name,
+      email,
+      password: passwordHash,
+      role
+    });
+
+    await newUser.save();
+    res.json({ msg: "Account activat" });
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
+},
+updateSubject: async (req, res) => {
+  try {
+    const { id, subject } = req.body;
+    await Users.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        subject,
+      }
+    );
+    res.json({ msg: "Subject Update Success" });
+  } catch (err) {
+    return res.status(500).json({ msg: err.message });
+  }
 },
 };
 

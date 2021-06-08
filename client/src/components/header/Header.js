@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import Button from "@material-ui/core/Button";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 function Header() {
   const auth = useSelector((state) => state.login);
@@ -38,7 +40,6 @@ function Header() {
     );
   };
 
-
   return (
     <>
       <header>
@@ -47,11 +48,20 @@ function Header() {
           {isLogged ? (
             userLink()
           ) : (
-            <div className="login__btn">
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              style={{ fontSize: 12 }}
+              endIcon={<AccountCircleIcon/>}
+            >
+              {/* <div className="login__btn"> */}
               <Link to="/login">
-                <i className="fas fa-sign-in-alt"></i>Login
+                {/* <i className="fas fa-sign-in-alt"></i> */}
+                Login
               </Link>
-            </div>
+              {/* </div> */}
+            </Button>
           )}
         </div>
       </header>
@@ -78,7 +88,10 @@ function Header() {
             {isLogged ? (
               <li>
                 <Link to="/profile">
-                  {isAdmin && "Dashboard" || isProfessor && "Clase" || isSecretar && "Informatii" || "Note"}
+                  {(isAdmin && "Dashboard") ||
+                    (isProfessor && "Clase") ||
+                    (isSecretar && "Informatii") ||
+                    "Note"}
                 </Link>
               </li>
             ) : (
