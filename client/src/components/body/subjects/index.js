@@ -27,9 +27,6 @@ export default function Subjects(props) {
       saveSubject();
       setDataSubject({ ...dataSubject, name: "" });
     }
-    if (responsePost.status === 500){
-      console.error("Nu este ok");
-    }
   };
 
   return (
