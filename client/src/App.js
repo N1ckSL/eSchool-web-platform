@@ -12,7 +12,9 @@ import Body from "./components/body/Body";
 import "./app.css";
 import axios from "axios";
 
-function App() {
+import Container from '@material-ui/core/Container';
+
+export default function App() {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const auth = useSelector((state) => state.login);
@@ -44,12 +46,17 @@ function App() {
   
   return (
     <Router>
+      <React.Fragment>
+        <Container maxWidth="lg">
       <div className="App">
         <Header />
         <Body />
       </div>
+      </Container>
+      </React.Fragment>
+
     </Router>
   );
 }
 
-export default App;
+// export default App;

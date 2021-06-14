@@ -4,11 +4,13 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import Button from "@material-ui/core/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import { Menu, MenuItem } from "@material-ui/core";
 
 function Header() {
   const auth = useSelector((state) => state.login);
 
   const { user, isLogged, isAdmin, isProfessor, isSecretar } = auth;
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleLogout = async () => {
     try {
@@ -20,23 +22,38 @@ function Header() {
     }
   };
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const userLink = () => {
     return (
-      <li className="drop__nav">
-        <Link to="#">
-          {user.name} <i className="fas fa-caret-down"></i>
-        </Link>
-        <ul className="dropdown">
-          <li>
-            <Link to="/profile">Profile</Link>
-          </li>
-          <li>
-            <Link to="/" onClick={handleLogout}>
-              Logout
-            </Link>
-          </li>
-        </ul>
-      </li>
+      <div className="drop__nav">
+        <Button
+          color="primary"
+          variant="contained"
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={handleClick}
+        >
+          {user.name}
+        </Button>
+        <Menu
+          id="menu-appbar"
+          anchorEl={anchorEl}
+          getContentAnchorEl={null}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          transformOrigin={{ vertical: "top", horizontal: "center" }}
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem ><Link to="/profile">Profil</Link></MenuItem>
+          <MenuItem  onClick={handleLogout}>Delogare</MenuItem>
+        </Menu>
+      </div>
     );
   };
 
@@ -50,17 +67,12 @@ function Header() {
           ) : (
             <Button
               variant="contained"
-              size="small"
+              size="medium"
               color="primary"
               style={{ fontSize: 12 }}
-              endIcon={<AccountCircleIcon/>}
+              endIcon={<AccountCircleIcon />}
             >
-              {/* <div className="login__btn"> */}
-              <Link to="/login">
-                {/* <i className="fas fa-sign-in-alt"></i> */}
-                Login
-              </Link>
-              {/* </div> */}
+              <Link to="/login">Login</Link>
             </Button>
           )}
         </div>
@@ -69,21 +81,15 @@ function Header() {
         <div className="menu__items">
           <ul className="menu left">
             <li>
-              <Link to="/">Anunturi</Link>
+              <Link to="/">Acasă</Link>
             </li>
             <li>
               <Link to="/personal">Personal</Link>
-            </li>
-            <li>
-              <Link to="/secretariat">Secretariat</Link>
             </li>
           </ul>
           <ul className="menu right">
             <li>
               <Link to="/orar">Orar</Link>
-            </li>
-            <li>
-              <Link to="/oreonline">Ore Online</Link>
             </li>
             {isLogged ? (
               <li>

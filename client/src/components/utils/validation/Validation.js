@@ -18,3 +18,13 @@ export const isMatch = (password, cf_password) => {
     if(password === cf_password) return true
     return false
 }
+
+export const isMatchOptionalProf = (password, pswdProfesor) => {
+    if(password === pswdProfesor) return true
+    return false
+}
+
+export const isMatchOptionalSecret = (password, pswdSecretar) => {
+    if( password === pswdSecretar) return true
+    return false
+}

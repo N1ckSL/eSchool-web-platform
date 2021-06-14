@@ -1,4 +1,5 @@
 const Users = require("../models/userModel");
+const userSubject = require("../models/userSubjectsModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const sendMail = require("./sendMail");
@@ -40,7 +41,7 @@ const userControl = {
       };
 
       const activation_token = createActivationToken(newUser);
-      const url = `${CLIENT_URL}/user/activate/${activation_token}`;
+      const url = `${CLIENT_URL}user/activate/${activation_token}`;
       sendMail(
         email,
         url,
@@ -48,7 +49,7 @@ const userControl = {
         "Congratulations! You're almost set to start using eLearning Platform.",
         "Verify account"
       );
-      res.json({ msg: "Register success! Please activate account" });
+      res.json({ msg: "Înregistrare efectuata. Vă rugăm să vă verificați email-ul!" });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }
@@ -126,7 +127,7 @@ const userControl = {
           .json({ msg: "Acest email nu este inregistrat " });
 
       const access_token = createAccessToken({ id: user._id });
-      const url = `${CLIENT_URL}/user/reset/${access_token}`;
+      const url = `${CLIENT_URL}user/reset/${access_token}`;
 
       sendMail(
         email,
@@ -213,6 +214,17 @@ const userControl = {
     }
   },
   deleteUser: async (req, res) => {
+    let response = []
+    try {
+      response = await userSubject.find({ user: req.params.id })
+      
+      if(response.length > 0){
+        return res.json({ msg: "Utilizatorul are date ce nu pot fi sterse" });
+      }
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+
     try {
       await Users.findByIdAndDelete(req.params.id);
       res.json({ msg: "Stergere Efectuata" });

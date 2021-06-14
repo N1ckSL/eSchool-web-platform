@@ -6,7 +6,7 @@ export function ReviewGrades(props){
     const { year, dataUserSubjects } = props
     const [studentsSubjects, setStudentsSubjects] = useState([])
     const auth = useSelector((state) => state.login);
-    const { user } = auth;
+    const { user, isProfessor } = auth;
     const [semester, setSemester] = useState(1)
     const [studentsGrades, setStudentsGrades] = useState([])
     useEffect(()=>{
@@ -23,8 +23,24 @@ export function ReviewGrades(props){
             await axios.post(`/subjectGrade/all`, {
                     ids
             })
-            if(isSubscribed)
-                setStudentsGrades(gradesSubject.data)
+            if(isSubscribed){
+                let prevSubjectID = "";
+                let prevPartial = 0;
+                let gradesSubjectData = [];
+                
+                for(var i = 0; i < gradesSubject.data.length; i++){
+                    if(gradesSubject.data[i].userSubject != prevSubjectID || gradesSubject.data[i].partial != prevPartial){
+                        gradesSubjectData.push(gradesSubject.data[i]);
+                        prevSubjectID = gradesSubject.data[i].userSubject;
+                        prevPartial = gradesSubject.data[i].partial;
+                    }else{
+                        if(prevPartial == gradesSubject.data[i].partial)
+                            gradesSubjectData[gradesSubjectData.length - 1].grade += "," +  gradesSubject.data[i].grade;
+                    }
+                }
+                
+                setStudentsGrades(gradesSubjectData)
+            }
         };
         getSubjectGrades()
         return () => (isSubscribed = false)
@@ -49,7 +65,8 @@ export function ReviewGrades(props){
     }
     return (
         <div>
-            <h2>Review Grades</h2>
+            
+            <h2>Note curente</h2>
             { studentsSubjects.length===0 &&
                 <h3>You don´t have subjects assigned</h3>
             }
@@ -68,7 +85,6 @@ export function ReviewGrades(props){
                 <tr>
                     <th>Subject</th>
                     <th>Grade</th>
-                    <th>Date</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -83,9 +99,9 @@ export function ReviewGrades(props){
                                         grade.grade
                                         }
                                     </td>
-                                    <td>{grade.createdAt}</td>
                                 </tr>
-                            )})
+                            )
+                        })
                     }
                 </tbody>
                 </table>

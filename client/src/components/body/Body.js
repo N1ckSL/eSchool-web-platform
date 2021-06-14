@@ -9,7 +9,10 @@ import ActivationEmail from "./login/ActivationEmail";
 import NotFound from "../utils/NotFound/NotFound";
 
 import Anunturi from "./anunturi/Anunturi";
+import Personal from "./personal/Personal";
+import Orar from "./orar/Orar";
 import Profile from "./profile/Profile";
+
 import EditUser from "./profile/EditUser";
 
 function Body() {
@@ -30,6 +33,8 @@ function Body() {
         <Route path="/user/activate/:activation_token" component={ActivationEmail} exact />
 
         <Route path="/profile" component={isLogged ? Profile : NotFound} exact />
+        <Route path="/personal" component={ Personal} exact />
+        <Route path="/orar" component={ Orar} exact />
         <Route path="/edit_user/:id" component={isAdmin ? EditUser : NotFound} exact />
 
         <Route path="/*" component={ NotFound } exact />

@@ -5,14 +5,16 @@
 }
 
 .profile__page .col-left{
-    max-width: 400px;
-    min-width: 300px;
+    max-width: 350px;
+    min-width: 100px;
     background: #0f2027;
     background: linear-gradient(180deg, #4C4C4C,#4C4C4C, #1F1C18);
     padding: 0 10px;
     margin: auto auto auto 10px;
-    /* border: 1px solid #06251f; */
+    border: 1px solid #06251f;
     border-radius: 5px 25px 105px 15px;
+    /* /* position: relative; */
+    top: -425px; 
 }
 
 .profile__page .col-left h2{
@@ -74,6 +76,7 @@
 .table__date{
     border-collapse: collapse;
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .table__date td,
@@ -115,8 +118,7 @@
     color: green;
 }
 .alignRight{
-    display: flex;
-    flex-direction: row-reverse;
+    text-align: center;
 }
 
 .check__box{
@@ -211,3 +213,68 @@
     margin: 10px auto;
     width: 30%;
 }
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0 !important;
+    background: #454545;
+    background-image: none;
+    width: 150px;
+   
+  }
+  #newRole{
+    height: 48px;
+  }
+  #subject{
+    position: relative;
+    top: -3px;
+    height: 38px;
+  }
+
+select::-ms-expand {
+    display: none;
+  }
+  /* Custom Select */
+  .select {
+    position: relative;
+    /* display: flex; */
+    width: 200px;
+    height: 40px;
+    line-height: 3;
+    background: #454545;
+    overflow: hidden;
+    border-radius: .25em;
+    margin-bottom: 10px;
+  }
+
+  select {
+    flex: 1;
+    padding: 0 .5em;
+    color: #fff;
+    cursor: pointer;
+  }
+  /* Arrow */
+  .select::after {
+    content: '\25BC';
+    position: absolute;
+    top: -10px;
+    right: 0;
+    padding: 0 1em;
+    height: 25px;
+    background: #454545;
+    cursor: pointer;
+    pointer-events: none;
+    -webkit-transition: .25s all ease;
+    -o-transition: .25s all ease;
+    transition: .25s all ease;
+  }
+  /* Transition */
+  .select:hover::after {
+    color: #3F51B5;
+  }
+  

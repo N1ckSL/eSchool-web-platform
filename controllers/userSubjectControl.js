@@ -44,7 +44,8 @@ const subjectControl = {
       });
   
       await newUserSubject.save();
-      res.json({ msg: "Subject created" });
+
+      res.json({ msg: "Subject created", _id: newUserSubject._id });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

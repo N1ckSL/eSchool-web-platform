@@ -1,0 +1,22 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.orar__wrapper{
+    width: 80%;
+    position: relative;
+    left: 10%;
+    top: -95px;
+}
+
+
+.img{
+    background: url("../orar/orar.png");
+    background-size: contain;
+    width: 450px;
+    height: 400px;
+    position: relative;
+    top: -100px;
+    left: 25%;
+}
