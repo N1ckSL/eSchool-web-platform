@@ -1,12 +1,10 @@
 # licenta
 MERN stack application
 
-Implementari:
+Users credentials:
 
-· Login/Register MongoDB ( with role )
+Student Role:
 
-· Forgot password - Reset password
+username:elev3@mail.com | password:asdasd
 
-· Header nav
-
-· Admin Role
+Uploading images should be on /orar page. Images should be saved in a folder within the project
