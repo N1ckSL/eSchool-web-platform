@@ -7,4 +7,8 @@ Student Role:
 
 username:elev3@mail.com | password:asdasd
 
-Uploading images should be on /orar page. Images should be saved in a folder within the project
+Code should be pasted in Client/components/body/orar/Orar.js and /server.js
+
+Uploading images should be visible on Orar page. Images should be saved in /client/public/uploads
+
+Uploaded image should be saved as current image, so on refresh it remains the same
