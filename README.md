@@ -1,6 +1,8 @@
 # licenta
 MERN stack application
 
+Code is on master branch
+
 Users credentials:
 
 Student Role:
